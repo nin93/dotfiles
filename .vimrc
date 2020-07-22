@@ -13,10 +13,12 @@ Plugin 'w0ng/vim-hybrid'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'mhinz/vim-signify'
 Plugin 'dense-analysis/ale'
+Plugin 'chrisbra/Colorizer'
 Plugin 'maximbaz/lightline-ale'
 Plugin 'itchyny/lightline.vim'
 Plugin 'tpope/vim-commentary'
 Plugin 'nin93/vim-crystal'
+Plugin 'nin93/vim-chimera'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -57,7 +59,7 @@ endif
 filetype indent plugin on
 
 " Whether Vim should use Nerd Fonts characters or not
-let g:shell_nerd_fonts_enabled = 0
+let g:shell_nerd_fonts_enabled = 1
 " }}} Environment
 
 " Colorscheme: {{{
@@ -69,7 +71,11 @@ colorscheme hybrid
 " }}} Colorscheme
 
 " Commands: {{{
-command! MakeTags !ctags -R .
+fun! _TrimWhiteSpaces()
+	let l:save = winsaveview()
+	keeppatterns %s/\s\+$//e
+	call winrestview(l:save)
+endfun
 
 command! -nargs=0 -bar Update if &modified
 	\|		if empty(bufname('%'))
@@ -79,29 +85,34 @@ command! -nargs=0 -bar Update if &modified
 	\|		endif
 	\|	endif
 
-command! Config          :execute ":edit $HOME/.vimrc"
-command! ConfigAlacritty :execute ":edit $HOME/.config/alacritty/alacritty.yml"
-command! ConfigBspwm     :execute ":edit $HOME/.config/bspwm/bspwmrc"
-command! ConfigCava      :execute ":edit $HOME/.config/cava/config"
-command! ConfigCompton   :execute ":edit $HOME/.config/compton.conf"
-command! ConfigI3wm      :execute ":edit $HOME/.config/i3/config"
-command! ConfigNcmpcpp   :execute ":edit $HOME/.config/ncmpcpp/config"
-command! ConfigNVim      :execute ":edit $HOME/.config/nvim/init.vim"
-command! ConfigPolybar   :execute ":edit $HOME/.config/polybar/config"
-command! ConfigRofi      :execute ":edit $HOME/.config/rofi/config"
-command! ConfigSxhkd     :execute ":edit $HOME/.config/sxhkd/sxhkdrc"
-command! ConfigXinit     :execute ":edit $HOME/.xinitrc"
-command! ConfigXdef      :execute ":edit $HOME/.Xdefaults"
-command! ConfigXres      :execute ":edit $HOME/.Xresources"
-command! ConfigZsh       :execute ":edit $HOME/.zshrc"
-command! ConfigZshEnv    :execute ":edit $HOME/.zshenv"
+command! MakeTags        !ctags -R .
+command! Config          edit $HOME/.vimrc
+command! ConfigAlacritty edit $HOME/.config/alacritty/alacritty.yml
+command! ConfigBspwm     edit $HOME/.config/bspwm/bspwmrc
+command! ConfigCava      edit $HOME/.config/cava/config
+command! ConfigCompton   edit $HOME/.config/compton.conf
+command! ConfigDunst     edit $HOME/.config/dunst/dunstrc
+command! ConfigI3wm      edit $HOME/.config/i3/config
+command! ConfigLf        edit $HOME/.config/lf/lfrc
+command! ConfigNcmpcpp   edit $HOME/.config/ncmpcpp/config
+command! ConfigNVim      edit $HOME/.config/nvim/init.vim
+command! ConfigPolybar   edit $HOME/.config/polybar/config
+command! ConfigRofi      edit $HOME/.config/rofi/config
+command! ConfigSxhkd     edit $HOME/.config/sxhkd/sxhkdrc
+command! ConfigXinit     edit $HOME/.xinitrc
+command! ConfigXdef      edit $HOME/.Xdefaults
+command! ConfigXres      edit $HOME/.Xresources
+command! ConfigZsh       edit $HOME/.zshrc
+command! ConfigZshEnv    edit $HOME/.zshenv
 
-command! Reload          :execute ":source $HOME/.vimrc"
-command! ReloadNVim      :execute ":source $HOME/.config/nvim/init.vim"
-command! ReloadZsh       :execute ":! source $HOME/.zshrc"
+command! Reload          source $HOME/.vimrc
+command! ReloadNVim      source $HOME/.config/nvim/init.vim
+command! ReloadZsh       !source $HOME/.zshrc
 
-command! WriteAsSU :execute ":silent w !sudo tee % > /dev/null" | :edit!
+command! WriteAsSU       silent w !sudo tee % > /dev/null | :edit!
 cnoreabbrev W WriteAsSU
+
+command! TrimWhiteSpaces call _TrimWhiteSpaces()
 " }}} Commands
 
 " Mappings: {{{
@@ -117,7 +128,7 @@ inoremap <silent> <C-s> <C-o>:Update<CR>
 vnoremap <silent> <C-s> <C-o>:Update<CR>
 
 " Folds: {{{
-nnoremap <Leader>f za 
+nnoremap <Leader>f za
 " }}} Folds
 
 " Snippets: {{{
@@ -133,21 +144,22 @@ nnoremap <silent> L $
 " }}} Cursor
 
 " Buffers: {{{
-inoremap <C-e> :edit 
-nnoremap <C-e> :edit 
+nnoremap <C-e>  :edit
 nnoremap <C-t>- :bdelete<CR>
-nnoremap <F2> :bprev<CR>
-nnoremap <F3> :bnext<CR>
-" }}} Buffers 
+nnoremap <C-p>  :bprev<CR>
+nnoremap <C-n>  :bnext<CR>
+nnoremap <F2>   :bprev<CR>
+nnoremap <F3>   :bnext<CR>
+" }}} Buffers
 
 " Selections: {{{
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" }}} Selections 
+" }}} Selections
 
 " Splits: {{{
-nmap <silent> <Leader>+ :exe "vertical resize +1"<CR>
-nmap <silent> <Leader>- :exe "vertical resize -1"<CR>
+nmap <silent> <Leader>+ :vertical resize +
+nmap <silent> <Leader>- :vertical resize -
 
 " Remap split navigation to Ctrl+(hjkl)
 nnoremap <C-h> :wincmd h<CR>
@@ -155,9 +167,6 @@ nnoremap <C-j> :wincmd j<CR>
 nnoremap <C-k> :wincmd k<CR>
 nnoremap <C-l> :wincmd l<CR>
 " }}} Splits
-
-" Reload config file
-nnoremap <F5> :source $HOME/.vimrc<CR>
 " }}} Mappings
 
 " Plugins: {{{
@@ -172,19 +181,19 @@ endfunction
 
 " Signify: {{{
 let g:signify_vcs_cmds = {
-      \ 'git':      'git diff --no-color --no-ext-diff -U0 -- %f',
-      \ 'yadm':     'yadm diff --no-color --no-ext-diff -U0 -- %f',
-      \ 'hg':       'hg diff --color=never --config aliases.diff= --nodates -U0 -- %f',
-      \ 'svn':      'svn diff --diff-cmd %d -x -U0 -- %f',
-      \ 'bzr':      'bzr diff --using %d --diff-options=-U0 -- %f',
-      \ 'darcs':    'darcs diff --no-pause-for-gui --no-unified --diff-opts=-U0 -- %f',
-      \ 'fossil':   'fossil diff --unified -c 0 -- %f',
-      \ 'cvs':      'cvs diff -U0 -- %f',
-      \ 'rcs':      'rcsdiff -U0 %f 2>%n',
-      \ 'accurev':  'accurev diff %f -- -U0',
-      \ 'perforce': 'p4 info '. sy#util#shell_redirect('%n') . (has('win32') ? ' &&' : ' && env P4DIFF= P4COLORS=') .' p4 diff -du0 %f',
-      \ 'tfs':      'tf diff -version:W -noprompt -format:Unified %f'
-      \ }
+			\ 'git':      'git diff --no-color --no-ext-diff -U0 -- %f',
+			\ 'yadm':     'yadm diff --no-color --no-ext-diff -U0 -- %f',
+			\ 'hg':       'hg diff --color=never --config aliases.diff= --nodates -U0 -- %f',
+			\ 'svn':      'svn diff --diff-cmd %d -x -U0 -- %f',
+			\ 'bzr':      'bzr diff --using %d --diff-options=-U0 -- %f',
+			\ 'darcs':    'darcs diff --no-pause-for-gui --no-unified --diff-opts=-U0 -- %f',
+			\ 'fossil':   'fossil diff --unified -c 0 -- %f',
+			\ 'cvs':      'cvs diff -U0 -- %f',
+			\ 'rcs':      'rcsdiff -U0 %f 2>%n',
+			\ 'accurev':  'accurev diff %f -- -U0',
+			\ 'perforce': 'p4 info '. sy#util#shell_redirect('%n') . (has('win32') ? ' &&' : ' && env P4DIFF= P4COLORS=') .' p4 diff -du0 %f',
+			\ 'tfs':      'tf diff -version:W -noprompt -format:Unified %f'
+			\ }
 
 let g:signify_vcs_cmds_diffmode = {
 			\ 'git':      'git show HEAD:./%f',
@@ -214,35 +223,43 @@ let g:signify_difftool = 'gnudiff'
 
 " ALE: {{{
 if g:shell_nerd_fonts_enabled
-	let g:ale_sign_error   = ""
-	let g:ale_sign_warning = ""
-"	let g:ale_sign_error   = ""
-"	let g:ale_sign_warning = ""
+	let g:ale_sign_error   = "ﴫ"
+	let g:ale_sign_warning = ""
+	"	let g:ale_sign_error   = ""
+	"	let g:ale_sign_warning = ""
 else
 	let g:ale_sign_error   = '»'
 	let g:ale_sign_warning = '»'
 endif
 " }}} ALE
- 
+
 " Crystal: {{{
 let g:crystal_auto_format = 0
 " }}} Crystal
 
 " Lightline: {{{
-let g:lightline = { 'colorscheme': 'one' }
+let g:lightline = { 'colorscheme': 'deus' }
 
 if g:shell_nerd_fonts_enabled
 else
 endif
 
 if g:shell_nerd_fonts_enabled
+	" let g:lightline = {
+	" 			\ 'separator': { 'left': '', 'right': '' },
+	" 			\ 'subseparator': { 'left': '', 'right': '' }
+	" 			\ }
 	let g:git_branch_indicator              = '  '
 	let g:lightline#ale#indicator_checking  = ' '
-	let g:lightline#ale#indicator_infos     = ' '
-	let g:lightline#ale#indicator_warnings  = ' '
+	let g:lightline#ale#indicator_infos     = 'i '
+	let g:lightline#ale#indicator_warnings  = ' '
 	let g:lightline#ale#indicator_errors    = ' '
 	let g:lightline#ale#indicator_ok        = ' '
 else
+	" let g:lightline = {
+	" 			\ 'separator': { 'left': '|', 'right': '|' },
+	" 			\ 'subseparator': { 'left': '|', 'right': '|' }
+	" 			\ }
 	let g:git_branch_indicator              = '@'
 	let g:lightline#ale#indicator_checking  = '…'
 	let g:lightline#ale#indicator_infos     = 'I'
@@ -252,36 +269,36 @@ else
 endif
 
 let g:lightline.component_expand = {
-	\		'linter_checking': 'lightline#ale#checking',
-	\		'linter_infos': 'lightline#ale#infos',
-	\		'linter_warnings': 'lightline#ale#warnings',
-	\		'linter_errors': 'lightline#ale#errors',
-	\		'linter_ok': 'lightline#ale#ok',
-	\ }
+			\		'linter_checking': 'lightline#ale#checking',
+			\		'linter_infos': 'lightline#ale#infos',
+			\		'linter_warnings': 'lightline#ale#warnings',
+			\		'linter_errors': 'lightline#ale#errors',
+			\		'linter_ok': 'lightline#ale#ok',
+			\ }
 
 let g:lightline.component_function = {
-	\   'gitbranch': 'FugitiveHead',
-	\		'gitrepo': 'FugitiveProject',
-	\ }
+			\   'gitbranch': 'FugitiveHead',
+			\		'gitrepo': 'FugitiveProject',
+			\ }
 
 let g:lightline.component_type = {
-	\		'linter_checking': 'right',
-	\		'linter_infos': 'right',
-	\		'linter_warnings': 'warning',
-	\		'linter_errors': 'error',
-	\		'linter_ok': 'right',
-	\ }
+			\		'linter_checking': 'right',
+			\		'linter_infos': 'right',
+			\		'linter_warnings': 'warning',
+			\		'linter_errors': 'error',
+			\		'linter_ok': 'right',
+			\ }
 
 let g:lightline.active = {
-	\		'right': [
-	\			[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok', 'lineinfo' ],
-	\			[ 'percent' ],
-	\			[ 'fileformat', 'filetype' ]
-	\		],
-	\   'left': [
-	\			[ 'mode', 'paste' ],
-	\			[ 'gitrepo', 'readonly', 'filename', 'modified' ]
-	\		]
-	\	}
+			\		'right': [
+			\			[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok', 'lineinfo' ],
+			\			[ 'percent' ],
+			\			[ 'fileformat', 'filetype' ]
+			\		],
+			\   'left': [
+			\			[ 'mode', 'paste' ],
+			\			[ 'gitrepo', 'readonly', 'filename', 'modified' ]
+			\		]
+			\	}
 " }}} Lightline
 " }}} Plugins
