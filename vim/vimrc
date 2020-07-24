@@ -1,36 +1,44 @@
-" .vimrc Vim configuration file
+" Vim configuration file
 
-" Vundle: {{{
-filetype off
+" Sets the path to .viminfo
+set viminfo+=n~/.config/vim/viminfo
 
-set nocompatible
-set rtp+=~/.vim/bundle/Vundle.vim
+" This is to instruct plugin manager to fetch
+" autoloads elsewhere than ~/.vim dir
+let rtp=&runtimepath
+set runtimepath=~/.config/vim
+let &runtimepath.=','.rtp.',~/.config/vim/after'
 
-call vundle#begin()
+if empty(glob('~/.config/vim/autoload/plug.vim'))
+	silent !curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-Plugin 'AlessandroYorba/Sierra'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'mhinz/vim-signify'
-Plugin 'dense-analysis/ale'
-Plugin 'chrisbra/Colorizer'
-Plugin 'maximbaz/lightline-ale'
-Plugin 'itchyny/lightline.vim'
-Plugin 'tpope/vim-commentary'
-Plugin 'nin93/vim-crystal'
-Plugin 'nin93/vim-chimera'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'tpope/vim-fugitive'
-Plugin 'ycm-core/YouCompleteMe'
+" Plug: {{{
+call plug#begin('~/.config/vim/plugged')
 
-call vundle#end()
-" }}} Vundle
+Plug 'w0ng/vim-hybrid'
+Plug 'mhinz/vim-signify'
+Plug 'dense-analysis/ale'
+Plug 'chrisbra/Colorizer'
+Plug 'maximbaz/lightline-ale'
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-commentary'
+Plug 'nin93/vim-crystal'
+Plug 'nin93/vim-chimera'
+Plug 'jiangmiao/auto-pairs'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'tpope/vim-fugitive'
+" plug 'ycm-core/YouCompleteMe'
+
+call plug#end()
+" }}} Plug
 
 " Environment: {{{
-set shell=zsh
-set updatetime=100
+set shell=zsh             " Sets default shell
+set updatetime=100        " Sets the global update rate
 set wildmenu              " Enables displaying of matched files in tab completion
 set path+=**              " Extends the path to current tree recursively
 set nu rnu                " Enables number of rows
@@ -44,12 +52,12 @@ set laststatus=2          " Always disply status bar
 set autoindent            " Enables autoindentation
 set ts=2 sts=2 sw=2       " Overrides tabs
 set noswapfile            " Disable .swp files
-set splitbelow splitright
+set splitbelow splitright " Enables any-directional splits
 set foldmethod=syntax     " Enables folding by indentations
 set foldnestmax=10        " Max value within indents are folded
 set foldlevel=5           " Sets the initial fold scope limit
 set background=dark
-" set nofoldenable          " Ensures new opened files are unfolded
+"set nofoldenable          " Ensures new opened files are unfolded
 
 if has("termguicolors")
 	set termguicolors
@@ -59,7 +67,7 @@ endif
 filetype indent plugin on
 
 " Whether Vim should use Nerd Fonts characters or not
-let g:shell_nerd_fonts_enabled = 1
+let g:shell_nerd_fonts_enabled = 0
 " }}} Environment
 
 " Colorscheme: {{{
@@ -85,31 +93,54 @@ command! -nargs=0 -bar Update if &modified
 	\|		endif
 	\|	endif
 
-command! MakeTags        !ctags -R .
-command! Config          edit $HOME/.vimrc
-command! ConfigAlacritty edit $HOME/.config/alacritty/alacritty.yml
-command! ConfigBspwm     edit $HOME/.config/bspwm/bspwmrc
-command! ConfigCava      edit $HOME/.config/cava/config
-command! ConfigCompton   edit $HOME/.config/compton.conf
-command! ConfigDunst     edit $HOME/.config/dunst/dunstrc
-command! ConfigI3wm      edit $HOME/.config/i3/config
-command! ConfigLf        edit $HOME/.config/lf/lfrc
-command! ConfigNcmpcpp   edit $HOME/.config/ncmpcpp/config
-command! ConfigNVim      edit $HOME/.config/nvim/init.vim
-command! ConfigPolybar   edit $HOME/.config/polybar/config
-command! ConfigRofi      edit $HOME/.config/rofi/config
-command! ConfigSxhkd     edit $HOME/.config/sxhkd/sxhkdrc
-command! ConfigXinit     edit $HOME/.xinitrc
-command! ConfigXdef      edit $HOME/.Xdefaults
-command! ConfigXres      edit $HOME/.Xresources
-command! ConfigZsh       edit $HOME/.zshrc
-command! ConfigZshEnv    edit $HOME/.zshenv
+" Vim/NeoVim setup
+command! Config              edit $HOME/.config/vim/vimrc
+command! ConfigNVim          edit $HOME/.config/nvim/init.vim
 
-command! Reload          source $HOME/.vimrc
-command! ReloadNVim      source $HOME/.config/nvim/init.vim
-command! ReloadZsh       !source $HOME/.zshrc
+" Term setup
+command! ConfigAlacritty     edit $HOME/.config/alacritty/alacritty.yml
 
-command! WriteAsSU       silent w !sudo tee % > /dev/null | :edit!
+" MPD/Players setup
+command! ConfigCava          edit $HOME/.config/cava/config
+command! ConfigNcmpcpp       edit $HOME/.config/ncmpcpp/config
+
+" WM setup
+command! ConfigI3wm          edit $HOME/.config/i3/config
+command! ConfigBspwm         edit $HOME/.config/bspwm/bspwmrc
+command! ConfigSxhkd         edit $HOME/.config/sxhkd/sxhkdrc
+
+" Composition/Alert setup
+command! ConfigCompton       edit $HOME/.config/compton.conf
+command! ConfigDunst         edit $HOME/.config/dunst/dunstrc
+
+" Files/Launcehrs setup
+command! ConfigLf            edit $HOME/.config/lf/lfrc
+command! ConfigRofi          edit $HOME/.config/rofi/config
+
+" Bars setup
+command! ConfigPolybar       edit $HOME/.config/polybar/config
+command! ConfigPolybarSh     edit $HOME/.config/polybar/launch.sh
+
+" X11 setup
+command! ConfigXinit         edit $HOME/.xinitrc
+command! ConfigXdef          edit $HOME/.Xdefaults
+command! ConfigXres          edit $HOME/.Xresources
+
+" Shell setup
+command! ConfigZsh           edit $HOME/.config/zsh/.zshrc
+command! ConfigZshEnv        edit $HOME/.config/zsh/.zshenv
+command! ConfigZshLogin      edit $HOME/.config/zsh/.zlogin
+command! ConfigZshLogout     edit $HOME/.config/zsh/.zlogout
+command! ConfigZshProfile    edit $HOME/.config/zsh/.zprofile
+
+command! MakeTags           !ctags -R .
+
+" Reload on the fly
+command! Reload              source $HOME/.config/vim/vimrc
+command! ReloadNVim          source $HOME/.config/nvim/init.vim
+command! ReloadZsh          !source $HOME/.config/zsh/.zshrc
+
+command! WriteAsSU           silent w !sudo tee % > /dev/null | :edit!
 cnoreabbrev W WriteAsSU
 
 command! TrimWhiteSpaces call _TrimWhiteSpaces()
@@ -260,7 +291,7 @@ else
 	" 			\ 'separator': { 'left': '|', 'right': '|' },
 	" 			\ 'subseparator': { 'left': '|', 'right': '|' }
 	" 			\ }
-	let g:git_branch_indicator              = '@'
+	let g:git_branch_indicator              = ' @'
 	let g:lightline#ale#indicator_checking  = '…'
 	let g:lightline#ale#indicator_infos     = 'I'
 	let g:lightline#ale#indicator_warnings  = 'W'

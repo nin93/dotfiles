@@ -96,21 +96,21 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Fira Code NF
+    family: Terminus (TTF)
 
     # The `style` can be specified to pick a specific face.
-    style: Retina
+    style: Medium
 
-  # Bold font face
+    # Bold font face
   bold:
     # Font family
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code NF
+    family: Terminus (TTF)
 
     # The `style` can be specified to pick a specific face.
-    style: Retina
+    style: Bold
 
   # Italic font face
   italic:
@@ -118,30 +118,30 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Fira Code NF
+    family: Terminus (TTF)
 
     # The `style` can be specified to pick a specific face.
-    style: Retina
+    style: Italic
 
   # Bold italic font face
-  #bold_italic:
+  bold_italic:
     # Font family
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    family: Terminus (TTF)
 
     # The `style` can be specified to pick a specific face.
-    #style: Bold Italic
+    style: Bold Italic
 
   # Point size
-  size: 9.5
+  size: 9
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  #offset:
-  #  x: 0
-  #  y: 0
+  offset:
+   x: 1
+   y: 2
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
@@ -162,18 +162,18 @@ draw_bold_text_with_bright_colors: false
 # Colors (Hybrid)
 colors:
   bright:
-    black: '#1d1f22'
-    blue: '#4b6b88'
-    cyan: '#4d7b74'
-    green: '#798431'
-    magenta: '#6e5079'
-    red: '#8d2e32'
-    white: '#5a626a'
-    yellow: '#e58a50'
+    black: '#425059'
+    blue: '#81a2be'
+    cyan: '#99ccc3'
+    green: '#b5bd68'
+    magenta: '#b294bb'
+    red: '#cc6666'
+    white: '#c5c8c6'
+    yellow: '#f0c674'
 
   cursor:
     cursor: '#e58a50'
-    # text: '#1e1f22'
+    text: '#1e1f21'
 
   normal:
     black: '#2a2e33'
@@ -190,15 +190,15 @@ colors:
     foreground: '#b7bcba'
     
   selection:
-    background: '#1e1f22'
-    text: '#b7bcba'
+    background: '#373b41'
+    # text: '#b7bcba'
 
   # Vi mode cursor colors
   #
   # Colors for the cursor when the vi mode is active. If these are unset, the
   # cursor color will be the inverse of the cell color.
   vi_mode_cursor:
-    text: '#282c34'
+    # text: '#282c34'
     cursor: '#abb2bf'
 
   # Dim colors
@@ -281,7 +281,7 @@ cursor:
   # the style of the active value of the normal cursor.
   #
   # See `cursor.style` for available options.
-  #vi_mode_style: None
+  vi_mode_style: Block
 
   # If this is `true`, the cursor will be rendered as a hollow box when the
   # window is not focused.
@@ -289,7 +289,7 @@ cursor:
 
   # Thickness of the cursor relative to the cell width as floating point number
   # from `0.0` to `1.0`.
-  #thickness: 0.15
+  thickness: 0.15
 
 # Live config reload (changes require restart)
 #live_config_reload: true

@@ -1,0 +1,220 @@
+# i3 config file (v4)
+
+
+
+### ENVIRONMENT ###
+set $mod Mod1
+set_from_resource $font font
+
+font pango:monospace 8
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 8
+
+
+
+### DEFAULT APPS ###
+set $term       alacritty
+set $editor     nvim
+set $compositor compton
+set $appmenu    rofi
+
+
+
+### COLORS ###
+set_from_resource $background    background   #000000
+set_from_resource $foreground    foreground   #000000
+set_from_resource $darkblack     color0       #000000
+set_from_resource $black         color8       #000000
+set_from_resource $darkred       color1       #000000
+set_from_resource $red           color9       #000000
+set_from_resource $darkgreen     color2       #000000
+set_from_resource $green         color10      #000000
+set_from_resource $darkyellow    color3       #000000
+set_from_resource $yellow        color11      #000000
+set_from_resource $darkblue      color4       #000000
+set_from_resource $blue          color12      #000000
+set_from_resource $darkmagenta   color5       #000000
+set_from_resource $magenta       color13      #000000
+set_from_resource $darkcyan      color6       #000000
+set_from_resource $cyan          color14      #000000
+set_from_resource $darkwhite     color7       #000000
+set_from_resource $white         color15      #000000
+set               $transparent   #00000000
+
+
+
+### WORKSPACES ###
+set $ws0  "1:I"
+set $ws1  "2:II"
+set $ws2  "3:III"
+set $ws3  "4:IV"
+set $ws4  "5:V"
+set $ws5  "6:VI"
+set $ws6  "7:VII"
+set $ws7  "8:VIII"
+set $ws8  "9:IX"
+set $ws9 "10:X"
+
+# Switch to workspace
+bindsym $mod+1 workspace $ws0
+bindsym $mod+2 workspace $ws1
+bindsym $mod+3 workspace $ws2
+bindsym $mod+4 workspace $ws3
+bindsym $mod+5 workspace $ws4
+bindsym $mod+6 workspace $ws5
+bindsym $mod+7 workspace $ws6
+bindsym $mod+8 workspace $ws7
+bindsym $mod+9 workspace $ws8
+bindsym $mod+0 workspace $ws9
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws0
+bindsym $mod+Shift+2 move container to workspace $ws1
+bindsym $mod+Shift+3 move container to workspace $ws2
+bindsym $mod+Shift+4 move container to workspace $ws3
+bindsym $mod+Shift+5 move container to workspace $ws4
+bindsym $mod+Shift+6 move container to workspace $ws5
+bindsym $mod+Shift+7 move container to workspace $ws6
+bindsym $mod+Shift+8 move container to workspace $ws7
+bindsym $mod+Shift+9 move container to workspace $ws8
+bindsym $mod+Shift+0 move container to workspace $ws9
+
+
+
+### WINDOWS ###
+floating_modifier $mod
+
+# class                 BORDER        BACKGR.       TEXT          INDICATOR      CHILD_BORDER
+client.focused          $darkwhite    $darkwhite    $white        $darkwhite     $white
+client.focused_inactive $background   $background   $white        $background    $background
+client.unfocused        $background   $background   $white        $background    $background
+client.urgent           $darkred      $darkred      $white        $darkred       $darkred
+client.placeholder      $darkblack    $darkblack    $darkblack    $darkblack     $darkblack
+client.background       $background
+
+for_window [class="^.*"] border pixel 1
+
+
+
+### LAYOUT ###
+assign [class="^ncmpcpp$"] $ws4
+assign [class="^Firefox$"] $ws1
+assign [class="^Telegram$"] $ws5
+gaps inner 30
+gaps outer 40
+
+
+
+### KEYBINDINGS ###
+# start a terminal
+bindsym $mod+Return exec i3-sensible-terminal
+
+# start a lf instance
+bindsym $mod+Shift+f exec "$term -e lf"
+
+# kill focused window
+bindsym $mod+Shift+q kill
+bindsym $mod+q kill
+
+bindsym $mod+d exec --no-startup-id "rofi -show run -run-shell-command '{terminal} -e \\" {cmd}; read -n 1 -s\\"'"
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+o split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+
+
+### MODES ###
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing h will shrink the window’s width.
+  # Pressing j will grow the window’s width.
+  # Pressing k will shrink the window’s height.
+  # Pressing l will grow the window’s height.
+  bindsym h resize shrink width  10 px or 10 ppt
+  bindsym j resize grow   height 10 px or 10 ppt
+  bindsym k resize shrink height 10 px or 10 ppt
+  bindsym l resize grow   width  10 px or 10 ppt
+
+  # same bindings, but for the arrow keys
+  bindsym Left  resize shrink width  10 px or 10 ppt
+  bindsym Down  resize grow   height 10 px or 10 ppt
+  bindsym Up    resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow   width  10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+
+
+### AUTOSTART ###
+exec --no-startup-id "mpd /home/nin93/.config/mpd/mpd.conf"
+exec --no-startup-id "xset r rate 220 30"
+exec_always --no-startup-id "pkill compton; compton -b"
+exec_always --no-startup-id "pkill dunst; dunst /home/nin93/.config/dunst/dunstrc"
+exec_always --no-startup-id "feh --bg-fill /home/nin93/Immagini/Wallpapers/wallhaven-43qow3.jpg"
+exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
+
+# vim:ft=config
