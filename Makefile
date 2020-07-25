@@ -77,7 +77,7 @@ install:
 	\
 	mkdir -p ${IMP_FONT_DIR}
 	cp ./fonts/Terminus*    ${IMP_FONT_DIR}/
-	cp ./fonts/ProggyClear* ${IMP_FONT_DIR}/
+	cp ./fonts/ProggyClean* ${IMP_FONT_DIR}/
 	\
 	mkdir -p ${IMP_I3WM_DIR}
 	cp ./i3/config ${IMP_I3WM_CFG}
