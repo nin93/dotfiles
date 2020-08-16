@@ -3,14 +3,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: alacritty
 
 window:
   # Window dimensions (changes require restart)
@@ -40,6 +40,9 @@ window:
   # Spread additional padding evenly around the terminal content.
   dynamic_padding: false
 
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
+
   # Window decorations
   #
   # Values for `decorations`:
@@ -49,7 +52,7 @@ window:
   # Values for `decorations` (macOS only):
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
-  decorations: full
+  decorations: none
 
   # Startup Mode (changes require restart)
   #
@@ -96,10 +99,11 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Terminus (TTF)
+    # family: Terminus (TTF)
+    family: CtrlD
 
     # The `style` can be specified to pick a specific face.
-    style: Medium
+    style: Regular
 
     # Bold font face
   bold:
@@ -107,10 +111,10 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Terminus (TTF)
+    family: CtrlD
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
+    style: Regular
 
   # Italic font face
   italic:
@@ -118,7 +122,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Terminus (TTF)
+    family: CtrlD
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -129,19 +133,18 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Terminus (TTF)
-
+    family: CtrlD
     # The `style` can be specified to pick a specific face.
-    style: Bold Italic
+    style: Italic
 
   # Point size
-  size: 9
+  size: 12
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
   offset:
-   x: 1
-   y: 2
+   x: 0
+   y: 1
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
@@ -157,7 +160,7 @@ font:
   #use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: true
 
 # Colors (Hybrid)
 colors:
@@ -191,15 +194,15 @@ colors:
     
   selection:
     background: '#373b41'
-    # text: '#b7bcba'
+    text: '#b7bcba'
 
   # Vi mode cursor colors
   #
   # Colors for the cursor when the vi mode is active. If these are unset, the
   # cursor color will be the inverse of the cell color.
-  vi_mode_cursor:
-    # text: '#282c34'
-    cursor: '#abb2bf'
+  #vi_mode_cursor:
+    #text: '#282c34'
+    #cursor: '#abb2bf'
 
   # Dim colors
   #
@@ -246,7 +249,7 @@ colors:
 #   - Linear
 #
 # Specifying a `duration` of `0` will disable the visual bell.
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
   color: '#ffffff'
@@ -257,14 +260,11 @@ visual_bell:
 # The value `0.0` is completely transparent and `1.0` is opaque.
 background_opacity: 1.0
 
-#selection:
+selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
   # When set to `true`, selected text will be copied to the primary clipboard.
-  #save_to_clipboard: false
-
-# Allow terminal applications to change Alacritty's window title.
-dynamic_title: true
+  save_to_clipboard: false
 
 cursor:
   # Cursor style
@@ -289,10 +289,10 @@ cursor:
 
   # Thickness of the cursor relative to the cell width as floating point number
   # from `0.0` to `1.0`.
-  thickness: 0.15
+  thickness: 0.3
 
 # Live config reload (changes require restart)
-#live_config_reload: true
+live_config_reload: true
 
 # Shell
 #
@@ -525,7 +525,7 @@ mouse_bindings:
 key_bindings:
   - { key: C,         mods: Control|Alt,         action: Copy }
   - { key: V,         mods: Control|Alt,         action: Paste }
-  - { key: F,         mods: Control|Alt,        chars: "c" }
+  - { key: F,         mods: Control|Alt,         chars: "c" }
   #- { key: Copy,                                 action: Copy           }
   #- { key: L,         mods: Control,             action: ClearLogNotice }
   #- { key: L,         mods: Control, mode: ~Vi,  chars: "\x0c"          }

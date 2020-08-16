@@ -1,0 +1,43 @@
+#! /bin/sh
+
+
+if [ $BSPWMRC_LOADED -eq 1 ]; then
+	. $HOME/.config/autostart/reload.sh
+else
+	. $HOME/.config/autostart/init.sh
+	export BSPWMRC_LOADED=1
+fi
+
+. $HOME/.config/polybar/launch.sh
+
+pkill sxhkd; sxhkd &
+
+bspc monitor -d {I,II,III,IV,V,VI,VII,VIII,IX,X}
+
+bspc config border_width         1
+bspc config normal_border_color  "#1d1f21"
+bspc config active_border_color  "#b7bcba"
+bspc config focused_border_color "#b7bcba"
+
+bspc config window_gap     25
+bspc config top_padding    38
+bspc config bottom_padding 47
+
+bspc config split_ratio           0.50
+bspc config borderless_monocle    true
+bspc config gapless_monocle       true
+bspc config focus_follows_pointer true
+bspc config history_aware_focus   true
+
+# Browser workspace
+bspc rule -a Firefox desktop=^2
+
+# Editing workspace
+bspc rule -a Gimp desktop=^4 state=monocle
+
+# Chat wordspace
+bspc rule -a TelegramDesktop desktop=^7
+bspc rule -a discord         desktop=^7
+
+# Multimedia rules
+bspc rule -a feh state=floating -g=320x240+0+0

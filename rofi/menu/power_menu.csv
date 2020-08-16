@@ -1,0 +1,6 @@
+0. Exit,
+---,
+1. Lock,
+2. Logout,bspc quit
+3. Reboot,sudo reboot
+4. Poweroff,sudo poweroff

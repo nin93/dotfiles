@@ -1,7 +1,6 @@
 # i3 config file (v4)
 
 
-
 ### ENVIRONMENT ###
 set $mod Mod1
 set_from_resource $font font
@@ -13,13 +12,11 @@ font pango:monospace 8
 font pango:DejaVu Sans Mono 8
 
 
-
 ### DEFAULT APPS ###
 set $term       alacritty
 set $editor     nvim
 set $compositor compton
 set $appmenu    rofi
-
 
 
 ### COLORS ###
@@ -42,7 +39,6 @@ set_from_resource $cyan          color14      #000000
 set_from_resource $darkwhite     color7       #000000
 set_from_resource $white         color15      #000000
 set               $transparent   #00000000
-
 
 
 ### WORKSPACES ###
@@ -82,7 +78,6 @@ bindsym $mod+Shift+9 move container to workspace $ws8
 bindsym $mod+Shift+0 move container to workspace $ws9
 
 
-
 ### WINDOWS ###
 floating_modifier $mod
 
@@ -97,14 +92,12 @@ client.background       $background
 for_window [class="^.*"] border pixel 1
 
 
-
 ### LAYOUT ###
 assign [class="^ncmpcpp$"] $ws4
 assign [class="^Firefox$"] $ws1
 assign [class="^Telegram$"] $ws5
 gaps inner 30
 gaps outer 40
-
 
 
 ### KEYBINDINGS ###
@@ -179,7 +172,6 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 
-
 ### MODES ###
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -208,13 +200,12 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-
 ### AUTOSTART ###
-exec --no-startup-id "mpd /home/nin93/.config/mpd/mpd.conf"
+exec --no-startup-id "mpd $HOME/.config/mpd/mpd.conf"
 exec --no-startup-id "xset r rate 220 30"
 exec_always --no-startup-id "pkill compton; compton -b"
-exec_always --no-startup-id "pkill dunst; dunst /home/nin93/.config/dunst/dunstrc"
-exec_always --no-startup-id "feh --bg-fill /home/nin93/Immagini/Wallpapers/wallhaven-43qow3.jpg"
+exec_always --no-startup-id "pkill dunst; dunst $HOME/.config/dunst/dunstrc"
+exec_always --no-startup-id "feh --bg-fill $HOME/Immagini/Wallpapers/wallhaven-43qow3.jpg"
 exec_always --no-startup-id "$HOME/.config/polybar/launch.sh"
 
 # vim:ft=config

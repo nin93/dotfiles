@@ -1,0 +1,121 @@
+# System hotkeys use Alt (eg. shutdown)
+# Destructive hotkeys use Shift (eg. kill process)
+# Normal hotkeys use nothing (eg. move window)
+
+### WM independent hotkeys ###
+
+# Alt+Enter : Terminal
+mod1 + Return
+	alacritty
+
+# Alt+R : Reload this config
+mod1 + r
+	pkill -USR1 -x sxhkd
+
+# Alt+Shift+Esc : End session
+mod1 + shift + Escape
+	bspc quit
+
+### bspwm hotkeys ###
+
+## Generic
+
+# Reload
+mod1 + shift + r
+	sh "${HOME}/.config/bspwm/bspwmrc"
+
+# Alt+Q : Close (optionally kill) the active window
+mod1 + {_,shift +}q
+	bspc node -{c,k}
+
+## Window modes
+# Alt+M : Toggle tiled/monocle
+mod1 + m
+	bspc desktop -l next
+
+# Alt+d : Run commands/apps
+mod1 + d
+	rofi -show run
+
+# Alt+G : Move active window to biggest space
+# mod1 + g
+# 	bspc node -s biggest
+
+# Alt+F : Toggle fullscreen active window
+mod1 + f
+	bspc node focused -t '~fullscreen'
+
+# Alt + {T,Shift + T,S} : Set window mode
+mod1 + {t,shift + t,s}
+	bspc node -t {tiled,pseudo_tiled,floating}
+
+# Alt + Tab : Focus next window in current desktop
+mod1 + Tab
+	bspc node -f next
+
+# Alt + Shift + Tab : Focus next window
+mod1 + shift + Tab
+	bspc node -f prev
+
+# Alt + {h,j,k,l} : Focus node in direction
+# Alt + Shift + {h,j,k,l} : Move node in direction
+mod1 + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+## Workspaces
+# Alt + <Num> : Switch to workspace
+# Alt + Shift + <Num> : Move to workspace
+mod1 + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+## Floating window controls
+# Win + [Arrow] : Move window
+mod1 + {Left,Down,Up,Right}
+	xdotool getwindowfocus windowmove --relative %1 {-20 0,0 20,0 -20,20 0}
+
+# Win + LeftClick : Move window
+mod1 + button{1-2}
+	bspc pointer -g {move,resize_corner}
+
+
+### Rofi Menus ###
+
+# Screenshot
+super + mod1 + {p,s,u}
+	rofimenu {power_menu,screen_capture,update_manager}.csv
+
+
+### Apps ###
+
+# Firefox
+super + f
+	firefox
+
+# FileManager
+super + p
+	alacritty -e 'lf'
+
+# Telegram
+super + t
+	telegram-desktop
+
+## Utility buttons
+
+# Volume mute
+XF86AudioMute
+	amixer -D pulse set Master toggle
+
+# Volume up
+XF86AudioRaiseVolume
+	amixer set Master playback 5%+
+
+# Volume down
+XF86AudioLowerVolume
+	amixer set Master playback 5%-
+
+# Screenshot
+Print
+	scapture --screen
+
+shift + Print
+	scapture --screen

@@ -1,0 +1,8 @@
+0. Exit,
+-----,
+1. Capture Screen,screen-capture --screen
+2. Capture Screen & yield,screen-capture --screen; dragon --and-exit $(ls -dt $SCREEN_CAPTURE_DIR/* | head -n1)
+3. Capture Region,screen-capture --window
+4. Capture Region & yield,screen-capture --window; dragon --and-exit $(ls -dt $SCREEN_CAPTURE_DIR/* | head -n1)
+5. Copy last Capture to Clipboard,ls -dt $SCREEN_CAPTURE_DIR/* | head -n1 | xclip -r -selection clipboard
+6. Drag last Capture on screen,dragon --and-exit $(ls -dt $SCREEN_CAPTURE_DIR/* | head -n1)
