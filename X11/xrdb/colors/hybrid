@@ -1,0 +1,61 @@
+! vim:ft=xdefaults
+
+#define FOREGROUND        #b7bcba
+#define BACKGROUND        #1d1f21
+
+#define BLACK_REGULAR     #2a2e33
+#define BLACK_BRIGHT      #425059
+#define RED_REGULAR       #b84d51
+#define RED_BRIGHT        #cc6666
+#define GREEN_REGULAR     #b3bf5a
+#define GREEN_BRIGHT      #b5bd68
+#define YELLOW_REGULAR    #e4b55e
+#define YELLOW_BRIGHT     #f0c674
+#define BLUE_REGULAR      #6e90b0
+#define BLUE_BRIGHT       #81a2be
+#define MAGENTA_REGULAR   #a17eac
+#define MAGENTA_BRIGHT    #bba2c3
+#define CYAN_REGULAR      #7fbfb4
+#define CYAN_BRIGHT       #99ccc3
+#define WHITE_REGULAR     #b5b9b6
+#define WHITE_BRIGHT      #c5c8c6
+
+! special
+*.foreground     : FOREGROUND
+*.background     : BACKGROUND
+*.cursorColor    : YELLOW_REGULAR
+*.primaryColor   : YELLOW_REGULAR
+*.secondaryColor : MAGENTA_REGULAR
+*.dimColor       : BLACK_BRIGHT
+
+! black
+*.color0  : BLACK_REGULAR
+*.color8  : BLACK_BRIGHT
+
+! red
+*.color1  : RED_REGULAR
+*.color9  : RED_BRIGHT
+
+! green
+*.color2  : GREEN_REGULAR
+*.color10 : GREEN_BRIGHT
+
+! yellow
+*.color3  : YELLOW_REGULAR
+*.color11 : YELLOW_BRIGHT
+
+! blue
+*.color4  : BLUE_REGULAR
+*.color12 : BLUE_BRIGHT
+
+! magenta
+*.color5  : MAGENTA_REGULAR
+*.color13 : MAGENTA_BRIGHT
+
+! cyan
+*.color6  : CYAN_REGULAR
+*.color14 : CYAN_BRIGHT
+
+! white
+*.color7  : WHITE_REGULAR
+*.color15 : WHITE_BRIGHT

@@ -1,0 +1,69 @@
+
+# Colors (XXX)
+colors:
+  bright:
+    black:      '#xxxxxx'
+    blue:       '#xxxxxx'
+    cyan:       '#xxxxxx'
+    green:      '#xxxxxx'
+    magenta:    '#xxxxxx'
+    red:        '#xxxxxx'
+    white:      '#xxxxxx'
+    yellow:     '#xxxxxx'
+
+  cursor:
+    cursor:     '#xxxxxx'
+    text:       '#xxxxxx'
+
+  normal:
+    black:      '#xxxxxx'
+    blue:       '#xxxxxx'
+    cyan:       '#xxxxxx'
+    green:      '#xxxxxx'
+    magenta:    '#xxxxxx'
+    red:        '#xxxxxx'
+    white:      '#xxxxxx'
+    yellow:     '#xxxxxx'
+
+  primary:
+    background: '#xxxxxx'
+    foreground: '#xxxxxx'
+    
+  selection:
+    background: '#xxxxxx'
+    text:       '#xxxxxx'
+
+  # Vi mode cursor colors
+  #
+  # Colors for the cursor when the vi mode is active. If these are unset, the
+  # cursor color will be the inverse of the cell color.
+  #vi_mode_cursor:
+    #text:      '#xxxxxx'
+    #cursor:    '#xxxxxx'
+
+  # Dim colors
+  #
+  # If the dim colors are not set, they will be calculated automatically based
+  # on the `normal` colors.
+  #dim:
+  #  black:     '#xxxxxx'
+  #  red:       '#xxxxxx'
+  #  green:     '#xxxxxx'
+  #  yellow:    '#xxxxxx'
+  #  blue:      '#xxxxxx'
+  #  magenta:   '#xxxxxx'
+  #  cyan:      '#xxxxxx'
+  #  white:     '#xxxxxx'
+
+  # Indexed Colors
+  #
+  # The indexed colors include all colors from 16 to 256.
+  # When these are not set, they're filled with sensible defaults.
+  #
+  # Example:
+  #   `- { index: 16, color: '#ff00ff' }`
+  #
+  #indexed_colors: []
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true

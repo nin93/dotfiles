@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for p in polybar picom dunst; do
+  if command -v $p > /dev/null; then
+    pkill $p
+  fi
+done
+
+. "$HOME"/.config/autostart/init

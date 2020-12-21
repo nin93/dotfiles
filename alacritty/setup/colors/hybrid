@@ -1,0 +1,69 @@
+
+# Colors (Hybrid)
+colors:
+  bright:
+    black:      '#546e7a'
+    blue:       '#81a2be'
+    cyan:       '#99ccc3'
+    green:      '#b5bd68'
+    magenta:    '#b294bb'
+    red:        '#cc6666'
+    white:      '#c5c8c6'
+    yellow:     '#f0c674'
+
+  cursor:
+    cursor:     '#e58a50'
+    text:       '#1e1f21'
+
+  normal:
+    black:      '#425059'
+    blue:       '#6e90b0'
+    cyan:       '#7fbfb4'
+    green:      '#b3bf5a'
+    magenta:    '#a17eac'
+    red:        '#b84d51'
+    white:      '#b5b9b6'
+    yellow:     '#e4b55e'
+
+  primary:
+    background: '#1d1f21'
+    foreground: '#b7bcba'
+    
+  selection:
+    background: '#373b41'
+    text:       '#b7bcba'
+
+  # Vi mode cursor colors
+  #
+  # Colors for the cursor when the vi mode is active. If these are unset, the
+  # cursor color will be the inverse of the cell color.
+  #vi_mode_cursor:
+    #text: '#282c34'
+    #cursor: '#abb2bf'
+
+  # Dim colors
+  #
+  # If the dim colors are not set, they will be calculated automatically based
+  # on the `normal` colors.
+  #dim:
+  #  black:   '#131415'
+  #  red:     '#864343'
+  #  green:   '#777c44'
+  #  yellow:  '#9e824c'
+  #  blue:    '#556a7d'
+  #  magenta: '#75617b'
+  #  cyan:    '#5b7d78'
+  #  white:   '#828482'
+
+  # Indexed Colors
+  #
+  # The indexed colors include all colors from 16 to 256.
+  # When these are not set, they're filled with sensible defaults.
+  #
+  # Example:
+  #   `- { index: 16, color: '#ff00ff' }`
+  #
+  #indexed_colors: []
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true

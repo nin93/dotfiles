@@ -1,128 +1,398 @@
-### ENVIRONMENT ###
-#set number
-#set relativenumber
-set preview
-set previewer ~/.config/lf/previewer
-#set icons
-set hidden
-set nopreview
-set ratios 1
-set info size:time
-set shell zsh
-set shellopts '-eu:--shwordsplit'
-set ifs "\n"
-set filesep " "  # default already
+# Settings {{{
+  set hidden
+  set ignorecase
+  set smartcase
+  set dirfirst
+  set scrolloff 30
 
+  #set preview
+  set nopreview
+  set previewer ~/.config/lf/preview
 
+  set ratios 1
+  set info size:time
 
-### COMMANDS ###
-cmd open ${{
-	case "$f" in
-		*.tar.bz|*.tar.bz2|*.tbz|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.txz|*.zip|*.rar|*.iso)
-			mntdir="$f-archivemount"
-			[ ! -d "$mntdir" ] && {
-				mkdir "$mntdir"
-				archivemount "$f" "$mntdir"
-				echo "$mntdir" >> "/tmp/__lf_archivemount_$id"
-			}
-			lf -remote "send $id cd \"$mntdir\""
-			lf -remote "send $id reload"
-			;;
-		*)
-			for f in $fx; do
-				$OPENER $f > /dev/null 2> /dev/null &
-			done;;
-		esac
-}}
+  set shell bash
+  #set shellopts '-eu:--shwordsplit'
 
-# pasting done right
-# cmd paste ${{
-#   send="while read -r line; do lf -remote \"send $id echo \$line\"; done && lf -remote 'send reload'"
-#   load=$(lf -remote 'load')
-#   mode=$(echo "$load" | sed -n '1p')
-#   srcF=$(mktemp)
-#   echo "$load" | sed '1d' > "$srcF"
-#   s='' && [ ! -w . ] && s='sudo'
-#   case "$mode" in
-#     copy) cmd='cp-p';; move) cmd='mv-p';;
-#   esac
-#   cmd="$cmd --new-line"
-#   $s sh -c "$cmd --backup=numbered -F \"$srcF\" . | $send && rm -f \"$srcF\" &"
-#   lf -remote 'send load'
-#   lf -remote 'send clear'
-# }}
+  set truncatechar "…"
+  set filesep "\n"
+  set ifs "\n"
+  set tabstop 2
+# }}} Settings
 
-cmd wallpaper ${{
-	feh --bg-fill "$f"
-}}
-
-cmd video_preview ${{
-  CACHE=$(mktemp /tmp/thumb_cache.XXXXX)
-  ffmpegthumbnailer -i "$f" -o $CACHE -s 0
-  ~/.config/lf/scripts/image $CACHE && rm $CACHE
-}}
-
-cmd config ${{
-	$EDITOR ~/.config/lf/lfrc
-}}
-
-cmd mkdir ${{
-	mkdir -p "$1"
-}}
-
-cmd tar %{{
-	dir = $(pwd)
-		[ -n $fs ] && fs="$f"
-		tar -zcf "$1" "$fs"
-}}
-
-cmd untar %{{
-	[ -n $fs ] && fs="$f"
-		tar -zxf "$fs" --one-top-level
-}}
-
-cmd unzip %{{
-	[ -n $fs ] && fs="$f"
-		unzip "$fs"
-}}
-
-cmd bulk-rename ${{
-    old=$(mktemp)
-    new=$(mktemp)
-    [ -n $fs ] && fs=$(ls)
-    printf "$fs\n" > $old
-    printf "$fs\n" > $new
-    $EDITOR $new
-    [ $(cat $new | wc -l) -ne $(cat $old | wc -l) ] && exit
-    paste $old $new | while read names; do
+# Commands: {{{
+  # Misc: {{{
+    # Rename multiple files at once inside $EDITOR
+    cmd bulk-rename ${{
+      old=$(mktemp)
+      new=$(mktemp)
+      [ -n $fs ] && fs=$(ls)
+      printf "$fs\n" > $old
+      printf "$fs\n" > $new
+      $EDITOR $new
+      [ $(cat $new | wc -l) -ne $(cat $old | wc -l) ] && exit
+      paste $old $new | while read names; do
         src=$(printf $names | cut -f1)
         dst=$(printf $names | cut -f2)
         [ $src = $dst ] && continue
         [ -e $dst ] && continue
         mv $src $dst
-    done
-    rm $old $new
-    lf -remote "send $id unselect"
-}}
+      done
+      rm $old $new
+      lf -remote "send $id unselect"
+    }}
 
-cmd toggle_parent ${{
-	
-}}
+    # Make title change on dir change
+    cmd on-cd &{{
+      printf "\033]0; $USER@$HOSTNAME:$(pwd | sed "s|$HOME|~|")/ - LF\007" > /dev/tty
+    }}
 
-cmd touch %{{
-	echo "touch:"
-	read filename
-	touch "$filename"
-}}
+    on-cd
 
+    # Wallpaper setter
+    cmd wallpaper-set &{{
+      case "$1" in
+        c|center) opts="-center";;
+        C|cover)  opts="-cover";;
+        e|extend) opts="-extend";;
+        f|fill)   opts="-fill";;
+      esac
+      sh -c "hsetroot $opts $f"
+    }}
+  # }}} Misc
 
+  # MPD Player: {{{
+    cmd play &{{
+      
+    }}
+  # }}}
 
-### MAPPINGS ###
-map <f-5> :reload
+  #cmd open ${{
+  #  case "$f" in
+  #    *.tar.bz|*.tar.bz2|*.tbz|*.tbz2|*.tar.gz|*.tgz|*.tar.xz|*.txz|*.zip|*.rar|*.iso)
+  #      mntdir="$f-archivemount"
+  #      [ ! -d "$mntdir" ] && {
+  #        mkdir "$mntdir"
+  #        archivemount "$f" "$mntdir"
+  #        echo "$mntdir" >> "/tmp/__lf_archivemount_$id"
+  #      }
+  #      lf -remote "send $id cd \"$mntdir\""
+  #      lf -remote "send $id reload"
+  #      ;;
+  #    *)
+  #      for f in $fx; do
+  #        $OPENER $f > /dev/null 2> /dev/null &
+  #      done
+  #      ;;
+  #  esac
+  #}}
 
-map ~ :toggle_parent
-map R :bulk-rename
-map oo $xdg-open "$f"
-map D :delete
-map - $~/.config/lf/scripts/image $f
-map + :video_preview
+  # Movement: {{{
+    cmd jump &{{
+      
+    }}
+  # }}} Movement
+
+  # File Management: {{{
+    # Async pasting with progess displaying
+    cmd paste &{{
+      load=$(lf -remote 'load')
+      mode=$(echo "$load" | sed -n '1p')
+      list=$(echo "$load" | sed '1d')
+      if [ $mode = 'copy' ]; then
+        rsync -av --ignore-existing --progress $list . \
+        | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+        | while read line; do
+          lf -remote "send $id echo $line"
+        done
+      elif [ $mode = 'move' ]; then
+        mv -n $list .
+      fi
+      lf -remote 'send load'
+      lf -remote 'send clear'
+    }}
+
+    # Link creation
+    #
+    # y (select for copy) and P to paste soft-link
+    # d (select for cut) and P to paste hard-link
+    cmd link %{{
+      load="$(lf -remote 'load')"
+      mode="$(echo "$load" | head -n1)"
+      files="$(echo "$load" | tail -n +2)"
+      echo $mode
+      if [ -z "$files" ]; then
+        lf -remote "send $id echoerr No files to link."
+        exit 0
+      else
+        for file in $files; do
+          # symbolically  copy mode is indicating a soft link
+          if [[ "$mode" == copy ]]; then
+            ln -sr $file -t .
+          # while a move mode is indicating a hard link
+          elif [[ "$mode" == move ]]; then
+            ln $file -t .
+          fi
+        done
+      fi
+      lf -remote 'send clear'
+    }}
+
+    # Archives: {{{
+      cmd unarch &{{
+        while read ark; do
+          case "$ark" in
+            *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar -jxf "$ark" --one-top-level;;
+            *.tar.gz|*.tgz) tar -xf "$ark" --one-top-level;;
+            *.tar.xz|*.txz) tar -Jxf "$ark" --one-top-level;;
+            *.gz|*.bzw|*.gzip) gunzip "$ark";;
+            *.zip|*.7z) unzip "$ark";;
+            *) lf -remote "send $id echoerr \"Not a valid archive: $ark\""; exit 0;;
+          esac
+        done <<< "$fx"
+        lf -remote "send $id reload"
+        lf -remote "send $id unselect"
+      }}
+
+      cmd tar &{{
+        ark="$(sed "s#\([ ']\)#\\\\\1#g" <<< "$@")"
+        tar -cf \'"$ark.tar"\' $fx
+        lf -remote "send $id reload"
+        lf -remote "send $id unselect"
+      }}
+
+      cmd tar-gz &{{
+        ark="$(sed "s#\([ \"]\)#\\\\\1#g" <<< "$@")"
+        tar -zcf "$ark.tar.gz" $fx
+        lf -remote "send $id reload"
+        lf -remote "send $id unselect"
+      }}
+
+      cmd tar-bz2 &{{
+        ark="$(printf "%q" "$@")"
+        tar -jcf "$ark.tar.bz2" $fx
+        lf -remote "send $id reload"
+        lf -remote "send $id unselect"
+      }}
+
+      cmd tar-xz &{{
+        ark="$(printf "%q" "$@")"
+        tar -Jcf "$ark.tar.xz" $fx
+        lf -remote "send $id reload"
+        lf -remote "send $id unselect"
+      }}
+
+      cmd unzip &{{
+        unzip "$fx"
+      }}
+    # }}} Archives
+  # }}} File Management
+
+  # GUI: {{{
+    cmd fzf-goto-file ${{
+      selection="$(fzf)"
+      file="$(basename $selection)"
+      lf -remote "send $id cd \"$(dirname $selection)\""
+      lf -remote "send $id load"$'\n'"send $id select \"$file\""
+    }}
+
+    cmd goto-file %{{
+      file="$(basename $1)"
+      lf -remote "send $id cd \"$(dirname $1)\""
+      lf -remote "send $id load"$'\n'"send $id select \"$file\""
+    }}
+  # }}} GUI
+
+  # Sharing: {{{
+    cmd share &{{
+      SSH_OPTS="-o LogLevel=error -o UserKnownHostsFile=/dev/null \
+        -o CheckHostIP=no -o StrictHostKeyChecking=no"
+      # target
+      host="$1"; port="$2"; shift 2; path="$@"
+      # get error message on failure; get 0 on success
+      # lf -remote "send $id echo Fetching device $host:$port"
+      rsync --info=progress2 --human-readable --archive \
+        -e "ssh -p ${port} ${SSH_OPTS}" $fx ${host}:${path} \
+        | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+        | while read line; do
+            progess="$(echo $line | awk '{ print $1," ",$2," ",$3," ",$4 }')"
+            lf -remote "send $id echo share: [$host] $progess"
+          done
+      status="${PIPESTATUS[0]}"
+      [ ! "${status}" -eq 0 ] && lf -remote "send $id echoerr $err"; exit
+      lf -remote "send $id echo share: [$host] done"
+      lf -remote "send $id unselect"
+    }}
+
+    # cmd scan-hosts ${{
+    #   {
+    #     fzf; kill "$!";
+    #   } < <(
+    #     for i in `seq 2 255`; do
+    #       nmap -sn 192.168.1.${i} | 
+    #         gawk '/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+/ {
+    #           gsub(/[\(\)]/, "", $6)
+    #             print $6 " -- " $5
+    #         }'
+    #     done
+    #   )
+    # }}
+
+    # Drag and Drop utility for GUI apps
+    cmd yield-files &{{
+      case "$1" in
+        o|once)   opts="--all --and-exit";;
+        a|all)    opts="--all";;
+        s|single) opts="";;
+      esac
+      files=""; while read f; do
+        files+=" $(printf "%q" "$f")"
+      done <<< "$fx"
+      lf -remote "send $id unselect"
+      eval "dragon $opts $files"
+    }}
+
+    # Clipboard: {{{
+      cmd clip-dirname ${{
+        dirname -- "$f" | tr -d '\n' | xclip -i -selection clipboard
+      }}
+
+      cmd clip-path ${{
+        if [ -n "$fs" ]; then echo "$fs"; else echo "$f" | tr -d '\n'; fi |
+          xclip -i -selection clipboard
+      }}
+
+      cmd clip-basename ${{
+        if [ -n "$fs" ]; then
+          echo "$fs" | xargs -r -d '\n' basename -a --
+        else
+          basename -- "$f" | tr -d '\n'
+        fi | xclip -i -selection clipboard
+      }}
+
+      cmd clip-basename-no-ext ${{
+        echo "$fx" |
+          xargs -r -d '\n' basename -a |
+          awk -e '{
+            for (i=length($0); i > 0; i--) {
+              if (substr($0, i, 1) == ".") {
+                if (i == 1) print $0
+                else print substr($0, 0, i-1)
+                break
+              }
+            }
+            if (i == 0)
+              print $0
+          }' |
+          if [ -n "$fs" ]; then cat; else tr -d '\n'; fi |
+          xclip -i -selection clipboard
+      }}
+    # }}} Clipboard
+
+  # Shell Wrappers: {{{
+    cmd disk-usage &{{
+      du="$(du -shc $fx)"
+      lf -remote "send $id echomsg $du"
+    }}
+
+    cmd mkdir &{{
+      # get error message on failure; get 0 on success
+      err="$(mkdir -p "$@" 2>&1 >/dev/null && echo $?)"
+      [ ! "$err" -eq 0 ] && (lf -remote "send $id echoerr $err"; exit)
+      lf -remote "send reload"$'\n'"send $id select \"$1\""
+    }}
+
+    cmd touch &{{
+      # get error message on failure; get 0 on success
+      err="$(touch "$@" 2>&1 >/dev/null && echo $?)"
+      [ ! "$err" -eq 0 ] && (lf -remote "send $id echoerr $err"; exit)
+      lf -remote "send reload"$'\n'"send $id select \"$1\""
+    }}
+
+    cmd chmod &{{
+      for f in $fx; do
+        # get error message on failure; get 0 on success
+        err="$(chmod "$1" "$f" 2>&1 >/dev/null && echo $?)"
+        [ ! "$err" -eq 0 ] && lf -remote "send $id echoerr $err"
+      done
+      lf -remote "send $id unselect"
+      lf -remote "send reload"
+    }}
+
+    cmd chown ${{
+      for f in $fx; do
+        # get error message on failure; get 0 on success
+        err="$(chown "$1" "$f" 2>&1 >/dev/null && echo $?)"
+        [[ "$err" = "0" ]] || lf -remote "send $id echoerr $err"
+      done
+      lf -remote "send $id unselect"
+      lf -remote "send reload"
+    }}
+
+    cmd man ${{
+      for f in $fx; do
+        man "$f" || lf -remote "send $id echoerr No man page for $f"
+      done
+      lf -remote "send $id unselect"
+    }}
+
+    cmd run ${{
+      . "$f" $@
+    }}
+  # }}} Shell Wrappers
+
+  # Preview: {{{
+    cmd toggle_preview %{{
+      if [ -e /tmp/lf_"$id"_preview ]; then
+        lf -remote "send $id set nopreview"
+        lf -remote "send $id set ratios 1"
+        rm /tmp/lf_"$id"_preview
+      else
+        lf -remote "send $id set ratios 1:1"
+        lf -remote "send $id set preview"
+        touch /tmp/lf_"$id"_preview
+      fi
+
+      lf -remote "send $id redraw"
+    }}
+
+    cmd video_preview ${{
+      CACHE=$(mktemp /tmp/thumb_cache.XXXXX)
+      ffmpegthumbnailer -i "$f" -o $CACHE -s 0
+      ~/.config/lf/scripts/image $CACHE && rm $CACHE
+    }}
+  # }}} Preview
+# }}} Commands
+
+# Mappings: {{{
+  # Quitting
+  cmd q :quit
+  map ZZ :quit
+  map Q  :quit
+
+  map I :toggle_preview
+  map o $devour xdg-open $f
+
+  # Create files/dirs/links
+  map +f push :touch<space>
+  map +d push :mkdir<space>
+  map P :link
+
+  # Archives
+  map x :unarch
+  map tt push :tar<space>
+  map tg push :tar-gz<space>
+  map tb push :tar-bz2<space>
+  map tx push :tar-xz<space>
+
+  # Dragon
+  map Ya :yield-files all
+  map Ys :yield-files single
+  map Yo :yield-files once
+
+  map re :bulk-rename
+  map D :delete
+
+  map - $~/.config/lf/scripts/image $f
+# }}} Mappings

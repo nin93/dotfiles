@@ -4,16 +4,16 @@
 [general]
 
 # Smoothing mode. Can be 'normal', 'scientific' or 'waves'. DEPRECATED as of 0.6.0
-; mode = normal
+mode = normal
 
 # Accepts only non-negative values.
-; framerate = 90
+framerate = 120
 
 # 'autosens' will attempt to decrease sensitivity if the bars peak. 1 = on, 0 = off
 # new as of 0.6.0 autosens of low values (dynamic range)
 # 'overshoot' allows bars to overshoot (in % of terminal height) without initiating autosens. DEPRECATED as of 0.6.0
-; autosens = 1
-; overshoot = 20
+autosens = 1
+overshoot = 20
 
 # Manual sensitivity in %. Autosens must be turned off for this to take effect.
 # 200 means double height. Accepts only non-negative values.
@@ -21,9 +21,9 @@
 
 # The number of bars (0-200). 0 sets it to auto (fill up console).
 # Bars' width and space between bars in number of characters.
-; bars = 0
+bars = 0
 bar_width = 1
-; bar_spacing = 0
+bar_spacing = 1
 
 
 # Lower and higher cutoff frequencies for lowest and highest bars
@@ -56,11 +56,11 @@ bar_width = 1
 # For alsa 'source' will be the capture device.
 # For fifo 'source' will be the path to fifo-file.
 # For shmem 'source' will be /squeezelite-AA:BB:CC:DD:EE:FF where 'AA:BB:CC:DD:EE:FF' will be squeezelite's MAC address
-; method = pulse
-; source = auto
+method = pulse
+source = auto
 
 ; method = alsa
-; source = hw:Loopback,1
+; source = hw:snd_hda_intel,1
 
 ; method = fifo
 ; source = /tmp/mpd.fifo
@@ -89,7 +89,7 @@ method = ncurses
 # 'stereo' mirrors both channels with low frequencies in center.
 # 'mono' outputs left to right lowest to highest frequencies.
 # 'mono_option' set mono to either take input from 'left', 'right' or 'average'.
-channels = stereo
+channels = mono
 mono_option = average
 
 # Raw output target. A fifo will be created if target does not exist.
@@ -108,7 +108,6 @@ ascii_max_range = 1000
 # Use decimal value in ascii table (i.e. 59 = ';' and 10 = '\n' (line feed)).
 ; bar_delimiter = 59
 ; frame_delimiter = 10
-
 
 
 [color]
@@ -140,15 +139,15 @@ gradient_color_8 = '#cc3333'
 
 # Percentage value for integral smoothing. Takes values from 0 - 100.
 # Higher values means smoother, but less precise. 0 to disable.
-integral = 57
+integral = 70
 
 # Disables or enables the so-called "Monstercat smoothing" with or without "waves". Set to 0 to disable.
 monstercat = 0
-waves = 0
+waves      = 0
 
 # Set gravity percentage for "drop off". Higher values means bars will drop faster.
 # Accepts only non-negative values. 50 means half gravity, 200 means double. Set to 0 to disable "drop off".
-gravity = 93
+gravity = 100
 
 
 # In bar height, bars that would have been lower that this will not be drawn.
@@ -165,13 +164,11 @@ ignore = 0
 3 = 1
 4 = 1
 5 = 1
-6 = 1
-7 = 1
-8 = 1
-9 = 1
-11 = 1
-12 = 1
-13 = 1
-14 = 1
-
-
+# 6 = 1
+# 7 = 1
+# 8 = 1
+# 9 = 1
+# 11 = 1
+# 12 = 1
+# 13 = 1
+# 14 = 1

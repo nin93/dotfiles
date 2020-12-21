@@ -1,0 +1,38 @@
+#!/bin/sh
+
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+  for f in /etc/X11/xinit/xinitrc.d/?* ; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
+if command -v xrandr > /dev/null; then
+  xrandr --newmode "1920x1080"  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync
+  xrandr --addmode DP1 "1920x1080"
+  xrandr --output DP1 --mode "1920x1080"
+fi
+
+if command -v xset > /dev/null; then
+  xset r rate 150 40
+fi
+
+usrxdbres="$HOME/.config/X11/xresources"
+
+if command -v xrdb > /dev/null; then
+  #[ -f "$sysxdbres" ] && xrdb -merge "$sysxdbres"
+  [ -f "$usrxdbres" ] && xrdb -merge "$usrxdbres"
+fi
+
+# Run Music Player Deamon as an user
+if command -v mpd &> /dev/null; then
+  mpd
+fi
+
+# Start hotkeys deamon
+if command -v sxhkd &> /dev/null; then
+  sxhkd -t 100 &
+fi
+
+eval $(dbus-launch --sh-syntax --exit-with-session bspwm)
+exec bspwm

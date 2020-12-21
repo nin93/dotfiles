@@ -1,6 +1,6 @@
 0. Exit,
 ---,
-1. Lock,
+1. Sync,
 2. Logout,
 3. Reboot,sudo reboot
 4. Poweroff,sudo poweroff

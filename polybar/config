@@ -1,21 +1,3 @@
-;==========================================================
-;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
-;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
-;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
-;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
-;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-;
-;
-;   To learn more about how to configure Polybar
-;   go to https://github.com/polybar/polybar
-;
-;   The README contains a lot of information
-;
-;==========================================================
-
 ;: Settings :;
 [settings]
 screenchange-reload = true
@@ -30,11 +12,10 @@ screenchange-reload = true
 ;margin-top = 30
 ;margin-bottom = 0
 
-
-;: Environment :;
+;: Colors :;
 [colors]
-background  = #00000000
-;background  = ${xrdb:background}
+; background  = #00000000
+background  = ${xrdb:background}
 foreground  = ${xrdb:foreground}
 darkblack   = ${xrdb:color0}
 black       = ${xrdb:color8}
@@ -53,16 +34,15 @@ cyan        = ${xrdb:color14}
 darkwhite   = ${xrdb:color7}
 white       = ${xrdb:color15}
 
-primary     = ${self.yellow}
+primary     = ${self.blue}
 secondary   = ${self.magenta}
 alert       = ${self.magenta}
 
-
+;: Fonts :;
 [fonts]
 text  = CtrlD
 icons = ProggyCleanTTSZ Nerd Font Mono:antialias=false:pixelsize=18
-
-
+;: Icons :;
 [icons]
 app-term    = 
 app-browser = 
@@ -85,7 +65,13 @@ mp-cursor = 
 mp-fill   = 
 mp-empty  = 籠
 
+;: Modules :;
+[module/generic]
+format = <label>
 
+label-padding = 1
+
+interval = 1.0
 ;: Bars :;
 [bar/generic]
 height   = 35
@@ -93,8 +79,8 @@ offset-y = 4
 
 fixed-center = true
 
-background   = ${colors.background}
-foreground   = ${colors.foreground}
+background = ${colors.background}
+foreground = ${colors.foreground}
 
 padding-left  = 3
 padding-right = 3
@@ -116,75 +102,179 @@ cursor-scroll = ns-resize
 
 font-0 = ${fonts.text}
 font-1 = ${fonts.icons}
+;: System :;
+[module/updates]
+inherit = module/generic
+type    = custom/script
 
+exec = eix --installed --upgrade --only-names | wc -l
+interval = 60.0
 
-[bar/sys-monitor]
-inherit = bar/generic
-bottom = true
+format-prefix = %{T2}ﮮ%{T-}
 
-width    = 248
-offset-x = 1663
-
-modules-right = updates memory cpu
-
-
-[bar/workspaces]
-inherit = bar/generic
-bottom = true
-
-width    = 326
-offset-x = 796
-
-modules-center = bspwm
-;modules-center = i3
-
-
-[bar/music-player]
-inherit = bar/generic
-bottom = true
-
-width    = 636
-offset-x = 9
-
-modules-left = mpd-controller mpd-song
-
-
-[bar/app-title]
-inherit = bar/generic
-
-width    = 621
-offset-x = 9
-
-modules-left = xwindow
-
-
-[bar/time]
-inherit = bar/generic
-
-width    = 242
-offset-x = 839
-
-modules-center = date clock
-
-
-[bar/client-monitor]
-inherit = bar/generic
-
-width    = 412
-offset-x = 1499
-
-modules-right = capture alsa eth powermenu
-
-
-;: Modules :;
-[module/generic]
 format = <label>
-
-label-padding = 1
-
-interval = 1.0
+label = %output%
 
 
+[module/cpu]
+inherit = module/generic
+type    = internal/cpu
+
+label = %percentage%%
+
+format-prefix = "%{T2}%{T-}"
+
+
+[module/memory]
+inherit = module/generic
+type    = internal/memory
+
+label = %percentage_used%%
+
+format-prefix = "%{T2}%{T-}"
+
+
+[module/eth]
+inherit = module/generic
+type    = internal/network
+
+interface = enp1s0
+
+interval = 5.0
+
+format-connected-prefix = "%{T2}直%{T-}"
+label-connected = %local_ip%
+
+format-disconnected-prefix = "%{T2}睊%{T-}"
+label-disconnected = no network
+
+label-connected-padding = ${self.label-padding}
+label-disconnected-padding = ${self.label-padding}
+
+
+[module/powermenu]
+type = custom/menu
+
+expand-right = false
+
+format-spacing = 0
+
+label-open = ⏼
+label-open-foreground = ${colors.secondary}
+
+label-close = " ⏼"
+label-close-foreground = ${colors.secondary}
+
+label-separator = " |"
+label-separator-foreground = ${colors.foreground}
+
+menu-0-0 = " reboot"
+menu-0-0-exec = sudo reboot
+menu-0-1 = " power off"
+menu-0-1-exec = sudo poweroff
+;: XServer :;
+[module/xwindow]
+type  = internal/xwindow
+label = %title:0:80:...%
+;: Time :;
+[module/clock]
+inherit = module/generic
+type    = internal/date
+
+format-prefix = %{T2}%{T-}
+
+label = %time%
+
+time = %H:%M
+
+
+[module/date]
+inherit = module/generic
+type    = internal/date
+
+format-prefix = %{T2}%{T-}
+
+label = %date%
+
+date = %a %d %b %Y
+date-alt = %d-%m-%Y
+;: MPD :;
+[module/mpd-controller]
+inherit = module/generic
+type    = internal/mpd
+
+;icon-prev  = <
+;icon-stop  = ©
+;icon-play  = @
+;icon-pause = #
+;icon-next  = >
+
+icon-prev  = %{T2}寧%{T-}
+icon-stop  = ${icons.mp-stop}
+icon-play  = %{T2}%{T-}
+icon-pause = %{T2}懶%{T-}
+icon-next  = %{T2}嶺%{T-}
+
+format-offline =
+format-online  = <icon-prev> <toggle> <icon-next>
+
+
+[module/mpd-progress]
+inherit = module/generic
+type    = internal/mpd
+
+format-offline =
+format-online  = <label-time>
+
+label-time = [%elapsed% ~ %total%]
+
+bar-progress-width     = 13
+bar-progress-indicator = ${icons.mp-cursor}
+bar-progress-fill      = ${icons.mp-fill}
+bar-progress-empty     = ${icons.mp-empty}
+
+
+[module/mpd-song]
+inherit = module/generic
+type    = internal/mpd
+
+format-offline = offline
+
+format-online         = <label-song>
+format-online-prefix  = %{T2}%{T-}
+
+label-song         = %artist% ~ %album% * %title%
+label-song-padding = ${self.label-padding}
+
+label-song-maxlen   = 80
+label-song-ellipsis = true
+
+
+;: Audio :;
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume = <label-volume> <ramp-volume>
+
+label-volume = VOL %percentage%%
+label-volume-foreground = ${colors.foreground}
+
+label-muted = 🔇
+label-muted-foreground = ${colors.foreground}
+
+
+[module/alsa]
+inherit = module/generic
+type = internal/alsa
+
+format-volume = <label-volume>
+format-volume-prefix = "%{T2}奔%{T-}"
+
+label-volume = %percentage%%
+label-volume-padding = ${self.label-padding}
+
+format-muted-prefix = "%{T2}ﱝ%{T-}"
+label-muted-padding = ${self.label-padding}
 ;: Window Managers :;
 [module/i3]
 type = internal/i3
@@ -261,211 +351,25 @@ label-urgent-padding    = ${self.label-padding}
 label-empty             = %name%
 label-empty-foreground  = ${colors.black}
 label-empty-padding     = ${self.label-padding}
-
-
-;: Modules :;
-[module/mpd-controller]
-inherit = module/generic
-type    = internal/mpd
-
-;icon-prev  = <
-;icon-stop  = ©
-;icon-play  = @
-;icon-pause = #
-;icon-next  = >
-
-icon-prev  = %{T2}寧%{T-}
-icon-stop  = ${icons.mp-stop}
-icon-play  = %{T2}%{T-}
-icon-pause = %{T2}懶%{T-}
-icon-next  = %{T2}嶺%{T-}
-
-format-offline =
-format-online  = <icon-prev> <toggle> <icon-next>
-
-
-[module/mpd-progress]
-inherit = module/generic
-type    = internal/mpd
-
-format-offline =
-format-online  = <label-time>
-
-label-time = [%elapsed% ~ %total%]
-
-bar-progress-width     = 13
-bar-progress-indicator = ${icons.mp-cursor}
-bar-progress-fill      = ${icons.mp-fill}
-bar-progress-empty     = ${icons.mp-empty}
-
-
-[module/mpd-song]
-inherit = module/generic
-type    = internal/mpd
-
-format-offline = offline
-
-format-online         = <label-song>
-format-online-prefix  = %{T2}%{T-}
-
-label-song         = %artist% ~ %title%
-label-song-padding = ${self.label-padding}
-
-label-song-maxlen   = 60
-label-song-ellipsis = true
-
-
-;: Time :;
-[module/clock]
-inherit = module/generic
-type    = internal/date
-
-format-prefix = %{T2}%{T-}
-
-label = %time%
-
-time = %H:%M
-
-
-[module/date]
-inherit = module/generic
-type    = internal/date
-
-format-prefix = %{T2}%{T-}
-
-label = %date%
-
-date = %a %d %b %Y
-date-alt = %d-%m-%Y
-
-
-;: Utilities :;
-[module/capture]
-inherit = module/generic
-type    = custom/script
-
-;exec = scapture --screen
-
-format-prefix = %{T2}%{T-}
-format-prefix-foreground = ${colors.secondary}
-
-format = <label>
-label = %output%
-
-label-padding = 1
-
-label-foreground = ${colors.secondary}
-
-
-;: XServer :;
-[module/xwindow]
-type  = internal/xwindow
-label = %title:0:80:...%
-
-
-;: System :;
-[module/abs-sys]
-interval = 1.0
-
-format = <label>
-
-label-padding = 1
-
-
-[module/updates]
-inherit = module/generic
-type    = custom/script
-
-exec = eix --installed --upgrade --only-names | wc -l
-interval = 60.0
-
-format-prefix = %{T2}ﮮ%{T-}
-
-format = <label>
-label = %output%
-
-
-[module/cpu]
-inherit = module/generic
-type    = internal/cpu
-
-label = %percentage%%
-
-format-prefix = "%{T2}%{T-}"
-
-
-[module/memory]
-inherit = module/generic
-type    = internal/memory
-
-label = %percentage_used%%
-
-format-prefix = "%{T2}%{T-}"
-
-
-[module/eth]
-inherit = module/generic
-type    = internal/network
-
-interface = enp1s0
-
-interval = 5.0
-
-format-connected-prefix = "%{T2}直%{T-}"
-label-connected = %local_ip%
-
-format-disconnected-prefix = "%{T2}睊%{T-}"
-label-disconnected = no network
-
-label-connected-padding = ${self.label-padding}
-label-disconnected-padding = ${self.label-padding}
-
-[module/powermenu]
-type = custom/menu
-
-expand-right = false
-
-format-spacing = 0
-
-label-open = ⏼
-label-open-foreground = ${colors.secondary}
-
-label-close = " ⏼"
-label-close-foreground = ${colors.secondary}
-
-label-separator = " |"
-label-separator-foreground = ${colors.foreground}
-
-menu-0-0 = " reboot"
-menu-0-0-exec = sudo reboot
-menu-0-1 = " power off"
-menu-0-1-exec = sudo poweroff
-
-
-;: Audio :;
-[module/pulseaudio]
-type = internal/pulseaudio
-
-format-volume = <label-volume> <ramp-volume>
-
-label-volume = VOL %percentage%%
-label-volume-foreground = ${colors.foreground}
-
-label-muted = 🔇
-label-muted-foreground = ${colors.foreground}
-
-
-[module/alsa]
-inherit = module/generic
-type = internal/alsa
-
-format-volume = <label-volume>
-format-volume-prefix = "%{T2}奔%{T-}"
-
-label-volume = %percentage%%
-label-volume-padding = ${self.label-padding}
-
-format-muted-prefix = "%{T2}ﱝ%{T-}"
-label-muted-padding = ${self.label-padding}
-
-; vim:ft=dosini
+[bar/bottom]
+inherit = bar/generic
+bottom = true
+
+width    = 1860
+offset-x = 30
+offset-y = 20
+
+modules-right  = updates memory cpu
+modules-center = bspwm
+modules-left   = mpd-controller mpd-song
+[bar/top]
+inherit = bar/generic
+bottom = false
+
+width    = 1860
+offset-x = 30
+offset-y = 15
+
+modules-right  = capture alsa eth
+modules-center = date clock
+modules-left   = xwindow

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+. "$HOME"/.config/autostart/load-colors
+. "$HOME"/.config/autostart/load-programs
+. "$HOME"/.config/autostart/load-polybar
+
+# Set wallpaper
+if command -v hsetroot &> /dev/null; then
+  hsetroot -solid $XRES_ROOTWINCOLOR || echo "Could not set wallpaper"
+fi
+
+export AUTOSTART_LOADED="yes"

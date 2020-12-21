@@ -1,0 +1,49 @@
+snippet beg
+begin
+	$1
+rescue ${2:errors}
+	$0
+end
+endsnippet
+
+snippet bege
+begin
+	$1
+rescue ${2:errors}
+	$3
+ensure
+	$0
+end
+endsnippet
+
+snippet mbeg
+{% begin %}
+	$0
+{% end %}
+endsnippet
+
+snippet mfor
+{% for ${1:val} in ${2:enumerable} %}
+	$0
+{% end %}
+endsnippet
+
+snippet mfori
+{% for ${1:idx}, ${2:val} in ${3:enumerable} %}
+	$0
+{% end %}
+endsnippet
+
+snippet mif
+{% if ${1:condition} %}
+	$0
+{% end %}
+endsnippet
+
+snippet mife
+{% if ${1:condition} %}
+	$2
+{% else %}
+	$0
+{% end %}
+endsnippet

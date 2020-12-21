@@ -1,0 +1,53 @@
+# $Date:$
+
+$print_type = 'pdf';
+
+$pdf_mode = 3;
+$postscript_mode = $dvi_mode = 0;
+$latex = 'xelatex --no-pdf %O %S && cp %Z%R.xdv %D';
+$dvipdf = 'xdvipdfmx %O -o %D %S';
+$clean_full_ext .= ' xdv';
+
+# $pdf_mode            = 1;
+# $latex = 'latex --src-specials %O %S';
+# $pdflatex            = 'pdflatex -interaction=nonstopmode -synctex=1 %O %S';
+# $xelatex             = 'xelatex -interaction=nonstopmode -synctex=1 %O %S';
+# $dvipdf              = 'dvipdfmx %O %S'; # needs -pdfdvi
+
+$bibtex              = 'bibtex %O %B';
+
+$biber               = 'biber --bblencoding=utf8 -u -U --output_safechars %O %B';
+$biber_silent_switch = '--onlylog';
+
+$max_repeat          = 5;
+
+push @generated_exts, "cb";
+push @generated_exts, "cb2";
+push @generated_exts, "spl";
+push @generated_exts, "nav";
+push @generated_exts, "snm";
+push @generated_exts, "tdo";
+push @generated_exts, "nmo";
+push @generated_exts, "brf";
+push @generated_exts, "nlg";
+push @generated_exts, "nlo";
+push @generated_exts, "nls";
+push @generated_exts, "synctex.gz";
+push @generated_exts, "tex.latexmain";
+push @generated_exts, "xdv";
+push @generated_exts, "run.xml";
+
+# Prevent latexmk from removing PDF after typeset.
+# This enables Skim to chase the update in PDF automatically.
+$pvc_view_file_via_temporary = 0;
+
+# Use MuPDF as a previewer
+# $pdf_previewer       = "open -ga ~/Applications/Skim.app";
+$pdf_previewer = "start /usr/bin/mupdf";
+$new_viewer_always = 0;
+$pdf_update_method = 2;
+$pdf_update_signal = 'SIGHUP';
+
+$clean_ext = 'bbl';
+push @generated_exts, "run.xml";
+push @generated_exts, "synctex.gz";

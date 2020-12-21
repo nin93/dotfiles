@@ -1,0 +1,37 @@
+# vim:ft=zsh
+
+### Zsh aliases ###
+
+# Create a directory (w parent dirs) and auto-cd into it
+function _mkcd() {
+	mkdir -p "$1"
+	cd "$1"
+}
+
+alias mkcd='_mkcd'
+
+# Auto colorized commands
+for acol in ls grep egrep fgrep; do
+	alias $acol="$acol --color=auto"
+done
+
+# Automatize mp3/wav downloading and conversion from a YT playlist
+for ft in mp3 wav; do
+	alias youtube-dl$ft="youtube-dl -x --extract-audio --audio-format $ft -o '%(playlist_index)s - %(title)s.%(ext)s'"
+done
+
+# Ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Misc commands
+alias nv='nvim'
+alias clip='xclip -rmlastnl -selection clipboard'
+
+# Login as super user preserving some ENV variables
+alias el='USER="root" LOGNAME="root" su root --preserve-environment'
+
+# Get public IP address
+alias ip-me='curl ident.me; echo'
+

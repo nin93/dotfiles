@@ -1,0 +1,18 @@
+# vim:ft=neomuttrc
+
+# Encrypted pass
+set imap_user = "eliafranzella@live.it"
+set imap_pass = `pass email/outlook.com/eliafranzella@live.it`
+set smtp_url  = "smtp://smtp-mail.outlook.com:587/"
+set smtp_pass = `pass email/outlook.com/eliafranzella@live.it`
+
+set realname  = "Elia Franzella"
+set from      = "eliafranzella@live.it"
+set folder    = "imaps://imap-mail.outlook.com:993"
+set spoolfile = "+INBOX"
+set postponed = "+[Outlook]/Drafts"
+
+# Folders
+#set header_cache     = ~/.mutt/com.gmail.foo/cache/headers
+#set message_cachedir = ~/.mutt/com.gmail.foo/cache/bodies
+#set certificate_file = ~/.mutt/com.gmail.foo/certificates

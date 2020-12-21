@@ -1,0 +1,69 @@
+
+# Colors (Blazer)
+colors:
+  bright:
+    black:      '#262626'
+    blue:       '#bdbddb'
+    cyan:       '#bddbdb'
+    green:      '#bddbbd'
+    magenta:    '#dbbddb'
+    red:        '#dbbdbd'
+    white:      '#ffffff'
+    yellow:     '#dbdbbd'
+                        
+  cursor:               
+    cursor:     '#d9e6f2'
+    text:       '#0d1926'
+                        
+  normal:               
+    black:      '#000000'
+    blue:       '#7a7ab8'
+    cyan:       '#7ab8b8'
+    green:      '#7ab87a'
+    magenta:    '#b87ab8'
+    red:        '#b87a7a'
+    white:      '#d9d9d9'
+    yellow:     '#b8b87a'
+                        
+  primary:              
+    background: '#0d1926'
+    foreground: '#d9e6f2'
+    
+  selection:
+    background: '#968c83'
+    text:       '#45373c'
+
+  # Vi mode cursor colors
+  #
+  # Colors for the cursor when the vi mode is active. If these are unset, the
+  # cursor color will be the inverse of the cell color.
+  #vi_mode_cursor:
+    #text:      '#xxxxxx'
+    #cursor:    '#xxxxxx'
+
+  # Dim colors
+  #
+  # If the dim colors are not set, they will be calculated automatically based
+  # on the `normal` colors.
+  #dim:
+  #  black:     '#xxxxxx'
+  #  red:       '#xxxxxx'
+  #  green:     '#xxxxxx'
+  #  yellow:    '#xxxxxx'
+  #  blue:      '#xxxxxx'
+  #  magenta:   '#xxxxxx'
+  #  cyan:      '#xxxxxx'
+  #  white:     '#xxxxxx'
+
+  # Indexed Colors
+  #
+  # The indexed colors include all colors from 16 to 256.
+  # When these are not set, they're filled with sensible defaults.
+  #
+  # Example:
+  #   `- { index: 16, color: '#ff00ff' }`
+  #
+  #indexed_colors: []
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true

@@ -1,0 +1,41 @@
+#!/bin/sh
+
+function export_special() {
+  local color="$1"
+  local upper="$(echo $color | tr 'a-z' 'A-Z')"
+
+  eval "export XRES_$upper=\"\$(xrdb -query | awk '/$color:.*#[0-9a-fA-F]/ { print \$2 }')\""
+}
+
+function export_color() {
+  local color="$1"; index="$2"
+  local upper="$(echo $color | tr 'a-z' 'A-Z')"
+
+  local normal="XRES_NORMAL_$upper"
+  local bright="XRES_BRIGHT_$upper"
+  local placid="XRES_PLACID_$upper"
+
+  eval "export $normal=\"\$(xrdb -query | awk '/color$(( 0 + $index)):.*#[0-9a-fA-F]/ { print \$2 }')\""
+  eval "export $bright=\"\$(xrdb -query | awk '/color$(( 8 + $index)):.*#[0-9a-fA-F]/ { print \$2 }')\""
+  eval "export $placid=\"\$(xrdb -query | awk '/color$((16 + $index)):.*#[0-9a-fA-F]/ { print \$2 }')\""
+}
+
+# Color Defaults
+if [ -n "$DISPLAY" ] && command -v xrdb > /dev/null; then
+  export_color black   0
+  export_color red     1
+  export_color green   2
+  export_color yellow  3
+  export_color blue    4
+  export_color magenta 5
+  export_color cyan    6
+  export_color white   7
+
+  export_special background
+  export_special foreground
+  export_special rootWinColor
+  export_special cursorColor
+  export_special primaryColor
+  export_special secondaryColor
+  export_special dimColor
+fi

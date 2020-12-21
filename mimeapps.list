@@ -1,0 +1,9 @@
+[Added Associations]
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-RHFQR0.desktop;userapp-Telegram Desktop-LHJVT0.desktop;userapp-Telegram Desktop-Z14MU0.desktop;
+
+[Default Applications]
+x-scheme-handler/tg=userapp-Telegram Desktop-Z14MU0.desktop
+image/bmp=sxiv.desktop
+image/png=sxiv.desktop
+image/jpeg=sxiv.desktop

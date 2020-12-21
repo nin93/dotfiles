@@ -1,0 +1,69 @@
+ 
+# Colors (Belafonte Night)
+colors:
+  bright:
+    black:      '#5e5252'
+    blue:       '#426a79'
+    cyan:       '#989a9c'
+    green:      '#858162'
+    magenta:    '#97522c'
+    red:        '#be100e'
+    white:      '#d5ccba'
+    yellow:     '#eaa549'
+                        
+  cursor:               
+    cursor:     '#968c83'
+    text:       '#20111b'
+                        
+  normal:               
+    black:      '#20111b'
+    blue:       '#426a79'
+    cyan:       '#989a9c'
+    green:      '#858162'
+    magenta:    '#97522c'
+    red:        '#be100e'
+    white:      '#968c83'
+    yellow:     '#eaa549'
+                        
+  primary:              
+    background: '#20111b'
+    foreground: '#968c83'
+                        
+  selection:            
+    background: '#45373c'
+    text:       '#968c83'
+
+  # Vi mode cursor colors
+  #
+  # Colors for the cursor when the vi mode is active. If these are unset, the
+  # cursor color will be the inverse of the cell color.
+  #vi_mode_cursor:
+    #text:      '#xxxxxx'
+    #cursor:    '#xxxxxx'
+
+  # Dim colors
+  #
+  # If the dim colors are not set, they will be calculated automatically based
+  # on the `normal` colors.
+  #dim:
+  #  black:     '#xxxxxx'
+  #  red:       '#xxxxxx'
+  #  green:     '#xxxxxx'
+  #  yellow:    '#xxxxxx'
+  #  blue:      '#xxxxxx'
+  #  magenta:   '#xxxxxx'
+  #  cyan:      '#xxxxxx'
+  #  white:     '#xxxxxx'
+
+  # Indexed Colors
+  #
+  # The indexed colors include all colors from 16 to 256.
+  # When these are not set, they're filled with sensible defaults.
+  #
+  # Example:
+  #   `- { index: 16, color: '#ff00ff' }`
+  #
+  #indexed_colors: []
+
+# If `true`, bold text is drawn using the bright color variants.
+draw_bold_text_with_bright_colors: true

@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+
+# Terminate already running bar instances
+pkill polybar
+
+BARS="${HOME}/.config/polybar/setup/bars/*"
+
+for bar in $BARS; do
+  bar_name="$(basename $bar | sed 's/^[0-9]*-\([^\.]*\)\(\.ini\)\?$/\1/')"
+  polybar "$bar_name" > /tmp/polybar_"$bar_name".log 2>&1 &
+  [ $? != 0 ] && notify-send "Polybar" "Failed to load $bar_name bar"
+done

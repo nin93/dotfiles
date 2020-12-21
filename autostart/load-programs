@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Start Window compositor
+if command -v picom &> /dev/null; then
+  picom -b
+fi
+
+# Start notification deamon
+if command -v dunst &> /dev/null; then
+  dunst "$HOME/.config/dunst/dunstrc" &
+fi
