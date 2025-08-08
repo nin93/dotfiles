@@ -1,0 +1,28 @@
+theme = tomorrow_night_burns_edit
+bold-is-bright = true
+
+shell-integration = zsh
+shell-integration-features = true
+
+font-family = "JetBrainsMonoNL Nerd Font"
+font-style-bold = "JetBrainsMonoNL NF Medium"
+font-style-bold-italic = "JetBrainsMonoNL NF Medium Italic"
+
+font-size = 9
+font-feature = -calt
+
+cursor-style = underline
+
+adjust-cursor-thickness = 20%
+adjust-cursor-height = 20%
+
+adjust-strikethrough-position = 30%
+adjust-strikethrough-thickness = -50%
+
+adjust-underline-position = 50%
+adjust-underline-thickness = -50%
+
+window-decoration = true
+window-padding-x = 5
+
+command = tmux
