@@ -13,13 +13,14 @@ for ft in mp3 wav; do
 done
 
 # Git aliases
-alias g='git'
+alias g="git"
+alias dots="git --git-dir='${HOME}/.local/share/dotfiles' --work-tree='${HOME}'"
 
 # Ls aliases
-alias ls='eza'
-alias la='eza -a'
-alias ll='eza -la'
+alias ls="eza"
+alias la="eza -a"
+alias ll="eza -la"
 
 # Misc commands
-alias nv='nvim'
-alias clip='xclip -rmlastnl -selection clipboard'
+alias nv="nvim"
+alias clip="xclip -rmlastnl -selection clipboard"
