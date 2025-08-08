@@ -1,0 +1,36 @@
+[user]
+  name = Elia Franzella
+  email = franzella.elia@gmail.com
+
+[core]
+  editor = nvim
+
+[alias]
+  # Monitoring
+  tree = log --graph --decorate --pretty=oneline --abbrev-commit
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%C(magenta)%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%C(magenta)%s%Cblue\\ [%cn]" --decorate --numstat
+  la = "!git config -l | grep alias | cut -c 7-"
+
+  # Branches
+  co = checkout
+  cob = checkout -b
+  br = branch
+  brd = branch -d
+  brD = branch -D
+
+  coo = !git fetch && git checkout
+  st = status -sb
+  cm = commit -m
+  chp = cherry-pick
+  amend = commit --amend -m
+  dev = !git checkout dev && git pull origin
+  develop = !git checkout develop && git pull origin
+  main = !git checkout main && git pull origin 
+  master = !git checkout master && git pull origin 
+  po = push origin
+  pu = !git push origin `git branch --show-current`
+  pom = push origin master
+  plo = pull origin
+  plom = pull origin master
+  unstage = reset --soft HEAD^
