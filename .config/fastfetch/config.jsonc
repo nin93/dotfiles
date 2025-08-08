@@ -1,0 +1,111 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file-raw",
+    "padding": {
+      "top": 1,
+      "left": 2,
+    },
+  },
+  "display": {
+    "separator": "",
+  },
+  "modules": [
+    {
+      "type": "title",
+      "key": "  User",
+      "format": "{1}",
+      "keyColor": "magenta",
+      "keyWidth": 14,
+    },
+    {
+      "type": "title",
+      "key": "  Host",
+      "format": "{2}",
+      "keyColor": "magenta",
+      "keyWidth": 14,
+    },
+    "break",
+    {
+      "type": "os",
+      "key": "  OS",
+      "keyColor": "yellow",
+      "keyWidth": 14,
+    },
+    {
+      "type": "kernel",
+      "key": "  Kernel",
+      "keyColor": "yellow",
+      "keyWidth": 14,
+    },
+    {
+      "type": "packages",
+      "key": "  PKGs",
+      "keyColor": "yellow",
+      "keyWidth": 14,
+    },
+    {
+      "type": "uptime",
+      "key": "  Uptime",
+      "keyColor": "yellow",
+      "keyWidth": 14,
+    },
+    "break",
+    {
+      "type": "cpu",
+      "key": "  CPU",
+      "keyColor": "red",
+      "keyWidth": 14,
+    },
+    {
+      "type": "gpu",
+      "key": "  GPU",
+      "keyColor": "red",
+      "keyWidth": 14,
+    },
+    {
+      "type": "memory",
+      "key": "  Memory",
+      "keyColor": "red",
+      "keyWidth": 14,
+    },
+    "break",
+    {
+      "type": "de",
+      "key": "  DE/WM",
+      "keyColor": "blue",
+      "keyWidth": 14,
+    },
+    {
+      "type": "display",
+      "key": "  Display",
+      "format": "{1}x{2} @ {3} Hz {6} {7}",
+      "keyColor": "blue",
+      "keyWidth": 14,
+    },
+    "break",
+    {
+      "type": "shell",
+      "key": "  Shell",
+      "keyColor": "cyan",
+      "keyWidth": 14,
+    },
+    {
+      "type": "terminal",
+      "key": "  Term",
+      "keyColor": "cyan",
+      "keyWidth": 14,
+    },
+    {
+      "type": "terminalfont",
+      "key": "  Font",
+      "keyColor": "cyan",
+      "keyWidth": 14,
+    },
+    "break",
+    {
+      "type": "custom",
+      "format": "\u001b[90m \u001b[31m \u001b[32m \u001b[33m \u001b[34m \u001b[35m \u001b[36m \u001b[37m \u001b[38m \u001b[39m     \u001b[38m \u001b[37m \u001b[36m \u001b[35m \u001b[34m \u001b[33m \u001b[32m \u001b[31m \u001b[90m",
+    },
+  ],
+}
